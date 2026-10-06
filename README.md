@@ -30,6 +30,7 @@ A frontend-only React implementation for the AI DevFest **Tender Document Packag
 - Download the final PDF.
 - Switch the complete UI between English and Bangla.
 - Dark/night mode.
+- Branded app logo and favicon.
 
 ### Bonus features included
 - Filename-based auto-match suggestions.
@@ -79,8 +80,8 @@ npm run preview
 
 1. Click **Load practice pack**.
 2. The bundled `requirements.json` and supplied PDFs are loaded in the browser.
-3. Review the suggested matches.
-4. Enter the expiry date for:
+3. Review the suggested matches. The bundled practice pack preselects the valid 2026 trade license and fills the sample expiry dates.
+4. Confirm or edit the prefilled expiry dates:
    - Trade License: `2027-06-30`
    - Bank Solvency Certificate: `2026-12-31`
 5. Confirm every requirement status.

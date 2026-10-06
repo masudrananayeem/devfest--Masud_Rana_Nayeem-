@@ -22,13 +22,9 @@ Then open the local Vite URL, normally `http://localhost:5173`.
 
 Click **Load practice pack**. The practice files are bundled under `public/sample-pack/` so the app can rehearse the complete workflow without a backend.
 
-Expected blocking issues after loading:
+The bundled practice loader preselects the valid 2026 trade license and fills the sample expiry dates so the sample can reach the ready state immediately. R06 and R07 are optional, so their missing files are `Not provided` and do not block.
 
-- R01 Missing/Expiry date needed until the valid 2026 trade license is matched and its expiry date is entered.
-- R04 Expiry date needed until `2026-12-31` is entered.
-- R06 and R07 are optional, so their missing files are `Not provided` and do not block.
-
-The suggested final state is:
+The expected ready state is:
 
 - R01 OK — `trade_license_2026.pdf` — `2027-06-30`
 - R02 OK — `03_tin_certificate.pdf`
