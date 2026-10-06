@@ -1,59 +1,35 @@
-# Tender Document Package Builder — AI DevFest
+# Tender Document Package Builder — React Practice Implementation
 
-A React + Vite, frontend-only implementation for the **AI DevFest — Tender Document Package Builder** problem.
+A frontend-only React/Vite implementation of the AI DevFest **Tender Document Package Builder** problem.
 
-> **Contest compliance note:** The official rulebook says project code must be created during the contest after T+0. This repository is a complete practice/reference implementation. Do not bring or submit this pre-created code as contest code if that would violate the event's start-from-zero rule. Recreate the implementation during the contest using the allowed AI workflow.
-
-## What it implements
+## Core requirements implemented
 
 - Import and validate `requirements.json`
-- Show tender metadata and ordered requirements
-- Upload multiple PDFs (max 30 files / 50 MB total)
-- Reject non-PDF files
+- Upload up to 30 PDFs / 50 MB total
+- Reject non-PDFs and safely report unreadable/password-protected PDFs
 - Count PDF pages in-browser with PDF.js
-- Remove uploaded files
-- One-to-one requirement/file matching
-- Change or clear matches
-- Expiry-date entry for expiry-controlled requirements
-- Exact SHA-256 content duplicate detection
-- Duplicate files cannot be matched to different requirements
-- Live status calculation:
-  - Missing
-  - Expiry date needed
-  - Expired
-  - Not provided
-  - OK
-- Generate button disabled while any blocking status exists
-- Browser-only PDF assembly with pdf-lib
-- English cover page with tender details and included documents
-- Original document order and all original pages
+- Match one uploaded PDF to at most one requirement and vice versa
+- Enter expiry dates for documents where `has_expiry=true`
+- Exact status logic: Missing, Expiry date needed, Expired, Not provided, OK
+- SHA-256 content duplicate detection
+- Duplicate content cannot be matched to different requirements
+- Immediate status recalculation after changes
+- English/Bangla UI
+- Auto-match suggestions based on filenames
+- PDF preview in a new browser tab
+- Generate one combined PDF in requirement order
+- English cover page with tender metadata and included-document list
 - Footer on every page: `<tender_id> | Page X of Y`
-- Download as `<tender_id>_Package.pdf`
-- English/Bangla UI switch
-- Subtle UI transitions
-- No backend, database, Firebase, Supabase, Appwrite, or participant-controlled storage
+- Browser-only processing; no backend, Firebase, Supabase, Appwrite, or remote document storage
 
-## Tech stack
-
-- React
-- Vite
-- pdf-lib
-- pdfjs-dist
-- Lucide React
-- Browser File API + Web Crypto SHA-256
-
-## Run
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the Vite URL, usually:
-
-```text
-http://localhost:5173
-```
+Open the URL shown by Vite, normally `http://localhost:5173`.
 
 Production build:
 
@@ -62,97 +38,39 @@ npm run build
 npm run preview
 ```
 
-## Practice sample
+## Practice pack
 
-The `sample-pack/` directory contains the provided fictional practice pack.
+This practice build includes the supplied sample pack under `public/sample-pack/`.
+Click **Load practice pack** to load its `requirements.json` and all sample PDFs automatically, then review the suggested matches and enter expiry dates.
 
-For a manual practice run:
+The real contest supplies the pack at T+0. In the contest, do not use pre-created project code: recreate the app from zero during the permitted contest window as required by the official rulebook.
 
-1. Import `sample-pack/requirements.json`.
-2. Upload every PDF in `sample-pack/documents/`.
-3. The two experience certificate files are byte-for-byte duplicates.
-4. `trade_license_2025.pdf` is expired before the tender deadline; use `trade_license_2026.pdf` for R01.
-5. Match:
-   - R01 → `trade_license_2026.pdf`
-   - R02 → `03_tin_certificate.pdf`
-   - R03 → `04_vat_certificate.pdf`
-   - R04 → `bank_solvency.pdf`, expiry `2026-12-31`
-   - R05 → one `experience_cert` file
-   - R08 → `02_technical_proposal.pdf`
-   - R09 → `01_financial_proposal.pdf`
-   - R10 → `scan_0042.pdf`
-6. Leave R06 (Audited Financial Statement) and R07 (Manufacturer's Authorization) unprovided. They are optional, so they do not block the package.
-7. Generate the package.
+## Practice sample resolution
 
-The supplied sample pack is fictional contest data. See `sample-pack/README.txt`.
+For the supplied sample pack:
 
-## Sample output
+- R01 → `trade_license_2026.pdf` (valid through 2027-06-30)
+- R02 → `03_tin_certificate.pdf`
+- R03 → `04_vat_certificate.pdf`
+- R04 → `bank_solvency.pdf` (valid through 2026-12-31)
+- R05 → one of the identical `experience_cert` PDFs; the other is a duplicate
+- R06 → optional / not provided
+- R07 → optional / not provided
+- R08 → `02_technical_proposal.pdf`
+- R09 → `01_financial_proposal.pdf`
+- R10 → `scan_0042.pdf`
 
-`output/T-2026-0417_Package.pdf` is a generated practice package using the resolved sample pack.
+The 2025 trade license is expired and should not be used for R01.
 
-It contains:
+## Contest deployment
 
-- 1 English cover page
-- 15 original document pages
-- total 16 pages
-- page footer on every page
-- documents in requirement order
+Static hosting works. Example settings:
 
-## Sample-pack findings
+- Build command: `npm run build`
+- Output directory: `dist`
 
-- `trade_license_2025.pdf` expires on 2025-06-30 and therefore fails the 2026-10-20 submission deadline.
-- `trade_license_2026.pdf` is valid through 2027-06-30.
-- `experience_cert.pdf` and `experience_cert (1).pdf` have the same SHA-256 content hash and must not be matched to different requirements.
-- TIN and VAT certificates have no expiry date.
-- Bank solvency is valid until 2026-12-31.
-- R06 and R07 are optional and may remain unprovided.
-- `scan_0042.pdf` is the signed declaration; it is an image-based PDF, so text extraction alone cannot identify it.
+Cloudflare Pages, Vercel, Netlify, or GitHub Pages can be used according to the official rules.
 
-## Contest-time Git plan
+## Important contest restriction
 
-Use a brand-new public repository named:
-
-```text
-devfest-<registration-number>
-```
-
-Do not commit project code before T+0.
-
-Suggested commit rhythm:
-
-### Commit 1 — around T+30
-
-```text
-Build tender requirements and PDF upload workflow | Prompt: ...
-```
-
-### Commit 2 — around T+60
-
-```text
-Add matching, expiry validation and duplicate detection | Prompt: ...
-```
-
-### Commit 3 — around T+85
-
-```text
-Add PDF package generation, bilingual UI and final fixes | Prompt: ...
-```
-
-Every commit message must contain the short change summary plus the AI prompt used, or `Manual edit` when no AI was used.
-
-## Deployment
-
-Static hosting is sufficient.
-
-For Cloudflare Pages / Vercel:
-
-```text
-Build command: npm run build
-Output directory: dist
-```
-
-The deployment must be public HTTPS, require no login, and match the final eligible commit.
-
-## License
-
-MIT. See `LICENSE`.
+This repository is a practice/reference implementation. The official rulebook requires project code to be created during the contest after T+0. Do not submit this pre-created source as your contest code.

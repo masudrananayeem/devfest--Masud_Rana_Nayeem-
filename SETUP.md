@@ -2,7 +2,7 @@
 
 ## 1. Install Node.js
 
-Use a current LTS Node.js release.
+Use a current Node.js LTS release.
 
 Check:
 
@@ -11,82 +11,40 @@ node -v
 npm -v
 ```
 
-## 2. Extract the ZIP
-
-Open a terminal in the project folder.
+## 2. Install and run
 
 ```bash
 cd tender-package-builder
-```
-
-## 3. Install dependencies
-
-```bash
 npm install
-```
-
-## 4. Start development server
-
-```bash
 npm run dev
 ```
 
-Open the URL shown by Vite.
+Open the Vite URL in Chrome.
 
-## 5. Practice with the supplied pack
+## 3. Practice mode
 
-Import:
+Click **Load practice pack**. The bundled practice data contains the provided `requirements.json` and all supplied sample PDFs.
 
-```text
-sample-pack/requirements.json
-```
+Then:
+1. Review the suggested matches.
+2. R01 must use `trade_license_2026.pdf`, not the expired 2025 file.
+3. R05 can use either experience certificate, but the identical second file is marked duplicate.
+4. Enter R01 expiry `2027-06-30`.
+5. Enter R04 expiry `2026-12-31`.
+6. R06 and R07 may remain `Not provided` because they are optional.
+7. Generate the package.
 
-Then select all PDFs inside:
+## 4. Manual contest-style workflow
 
-```text
-sample-pack/documents/
-```
+Import `requirements.json` yourself, upload PDFs, use **Suggest matches**, verify every row, enter expiry dates, fix all blocking statuses, then generate.
 
-Use the matching plan in README.md.
-
-## 6. Generate
-
-The Generate button becomes enabled only when every mandatory requirement is non-blocking.
-
-The generated file downloads as:
+## 5. Deploy
 
 ```text
-T-2026-0417_Package.pdf
+Build: npm run build
+Output: dist
 ```
 
-## 7. Production build
+## 6. Rule reminder
 
-```bash
-npm run build
-```
-
-Output:
-
-```text
-dist/
-```
-
-## 8. Cloudflare Pages / Vercel
-
-Build command:
-
-```text
-npm run build
-```
-
-Output directory:
-
-```text
-dist
-```
-
-No backend or environment variables are required.
-
-## Important contest rule
-
-This package is a practice/reference implementation. The official rulebook requires all project code to be created during the contest after T+0. If you are competing, recreate the project during the permitted contest window rather than submitting this pre-created code.
+The practice ZIP is not contest-submission code. The official rulebook requires starting from zero at T+0, with no pre-existing project code.
